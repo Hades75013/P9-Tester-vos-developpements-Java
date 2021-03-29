@@ -11,6 +11,8 @@ public class SequenceEcritureComptable {
     private Integer annee;
     /** La dernière valeur utilisée */
     private Integer derniereValeur;
+    /** Le code du journal **/
+    private JournalComptable journalComptable;
 
     // ==================== Constructeurs ====================
     /**
@@ -25,9 +27,10 @@ public class SequenceEcritureComptable {
      * @param pAnnee -
      * @param pDerniereValeur -
      */
-    public SequenceEcritureComptable(Integer pAnnee, Integer pDerniereValeur) {
+    public SequenceEcritureComptable(Integer pAnnee, Integer pDerniereValeur, JournalComptable pJournalComptable) {
         annee = pAnnee;
         derniereValeur = pDerniereValeur;
+        journalComptable=pJournalComptable;
     }
 
 
@@ -44,7 +47,12 @@ public class SequenceEcritureComptable {
     public void setDerniereValeur(Integer pDerniereValeur) {
         derniereValeur = pDerniereValeur;
     }
-
+    public JournalComptable getJournalComptable() {
+        return journalComptable;
+    }
+    public void setJournalComptable(JournalComptable pJournalComptable) {
+        journalComptable = pJournalComptable;
+    }
 
     // ==================== Méthodes ====================
     @Override
@@ -54,7 +62,8 @@ public class SequenceEcritureComptable {
         vStB.append("{")
             .append("annee=").append(annee)
             .append(vSEP).append("derniereValeur=").append(derniereValeur)
-            .append("}");
+                .append(vSEP).append("journal comptable=").append(journalComptable)
+                .append("}");
         return vStB.toString();
     }
 }
