@@ -1,20 +1,19 @@
 package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import com.dummy.myerp.model.bean.comptabilite.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.TransactionStatus;
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
@@ -55,6 +54,23 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         return getDaoProxy().getComptabiliteDao().getListEcritureComptable();
     }
 
+    @Override
+    public SequenceEcritureComptable getSequenceEcritureComptable(String codeJournal, Integer annee) {
+        return null;
+    }
+
+    @Override
+    public SequenceEcritureComptable updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable) {
+        return null;
+    }
+
+    @Override
+    public void insertSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable) {
+
+    }
+
+
+
     /**
      * {@inheritDoc}
      */
@@ -66,14 +82,38 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         /* Le principe :
                 1.  Remonter depuis la persitance la dernière valeur de la séquence du journal pour l'année de l'écriture
                     (table sequence_ecriture_comptable)
-                2.  * S'il n'y a aucun enregistrement pour le journal pour l'année concernée :
-                        1. Utiliser le numéro 1.
-                    * Sinon :
-                        1. Utiliser la dernière valeur + 1
-                3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)
-                4.  Enregistrer (insert/update) la valeur de la séquence en persitance
-                    (table sequence_ecriture_comptable)
-         */
+   */
+        Date date = pEcritureComptable.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Integer annee = calendar.get(Calendar.YEAR);
+
+        SequenceEcritureComptable vSequenceEcritureComptable = getSequenceEcritureComptable(pEcritureComptable.getJournal().getCode(),annee);
+
+       /* 2.  * S'il n'y a aucun enregistrement pour le journal pour l'année concernée :
+        1. Utiliser le numéro 1.
+                * Sinon :
+        1. Utiliser la dernière valeur + 1*/
+        if (vSequenceEcritureComptable != null){
+            vSequenceEcritureComptable = new SequenceEcritureComptable(annee,1, pEcritureComptable.getJournal());
+        }
+        else
+        {   vSequenceEcritureComptable.setDerniereValeur(vSequenceEcritureComptable.getDerniereValeur()+1);
+        }
+
+        /* 3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)*/
+        pEcritureComptable.setReference(reference(vSequenceEcritureComptable));
+       /* 4.  Enregistrer (insert/update) la valeur de la séquence en persitance
+                (table sequence_ecriture_comptable)*/
+            updateSequenceEcritureComptable(vSequenceEcritureComptable);
+            insertSequenceEcritureComptable(vSequenceEcritureComptable);
+    }
+
+    public String reference(SequenceEcritureComptable sequenceEcritureComptable){
+        String reference = sequenceEcritureComptable.getJournalComptable().getCode() + "-"
+                + sequenceEcritureComptable.getAnnee() + "/"
+                + String.format("%05d", sequenceEcritureComptable.getDerniereValeur() );
+        return  reference;
     }
 
     /**
@@ -134,6 +174,19 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+        Date date = pEcritureComptable.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        if (!String.valueOf( calendar.get(Calendar.YEAR ) ).equals(pEcritureComptable.getReference().substring(3,7))){
+            throw new FunctionalException("l'année de l'écriture comptable n'est pas conforme.");
+        }else if(!pEcritureComptable.getJournal().getCode().equals(pEcritureComptable.getReference().substring(0,2))){
+            throw new FunctionalException("le code de la référence de l'écriture comptable n'est pas conforme.");
+        }
+
+        //RG-7
+        //Les montants des lignes d'écritures peuvent comporter 2 chiffres maximum après la virgule.
+        //Dans la classe Montant comptable du module Model, @Digits(argument fraction=2)
     }
 
 
@@ -210,4 +263,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
+
+
 }
