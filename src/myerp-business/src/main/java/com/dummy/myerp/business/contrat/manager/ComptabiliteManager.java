@@ -40,7 +40,7 @@ public interface ComptabiliteManager {
 
     SequenceEcritureComptable getSequenceEcritureComptable(String codeJournal, Integer annee);
 
-    SequenceEcritureComptable updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable);
+    void updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable);
 
     void insertSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable);
 

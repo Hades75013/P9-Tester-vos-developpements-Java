@@ -83,25 +83,25 @@ public interface ComptabiliteDao {
     void deleteEcritureComptable(Integer pId);
 
 
+
+
     /**
      *
      * @param pJournal
      * @param pAnnee
      * @return
      */
-    SequenceEcritureComptable getSequenceEcritureComptable(String pJournal, Integer pAnnee)throws NotFoundException;
+    SequenceEcritureComptable getSequenceEcritureComptable(String pJournal, Integer pAnnee);
 
     /**
      *
      * @param sequenceEcritureComptable
      */
-    SequenceEcritureComptable updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable)throws NotFoundException;
+    void updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable);
 
     /**
      *
-     * @param codeJournal
-     * @param annee
-     * @return
+     * @param sequenceEcritureComptable
      */
-    void insertSequenceEcritureComptable(String codeJournal, Integer annee );
+    void insertSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable );
 }

@@ -37,6 +37,8 @@
     <!-- Properties -->
     <!-- =============================================================== -->
     <properties>
+        <dep.junit.version>5.5.1</dep.junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
 
@@ -53,6 +55,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>myerp-consumer</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>myerp-technical</artifactId>
+        </dependency>
+
 
         <!-- ===== Spring JDBC/Tx ===== -->
         <!-- spring-tx : transaction, JCA, DAO -->
@@ -73,27 +80,51 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- junit -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${dep.junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.13.2</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.3.27.RELEASE</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- ===== Database (pour les tests) ===== -->
-        <!-- Pool de connexion -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${dep.junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.1.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Drivers JDBC PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.15.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -103,7 +134,6 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.0</version>
         </dependency>
-
     </dependencies>
 
 
@@ -153,5 +183,25 @@
     <!-- Build -->
     <!-- =============================================================== -->
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
