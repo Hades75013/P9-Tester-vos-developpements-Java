@@ -8,6 +8,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class LigneEcritureComptableTest {
 
+    private CompteComptable compteComptable = new CompteComptable(2,"test constructeur");
+    private String libelle = "placements";
+    private BigDecimal debit = BigDecimal.valueOf(145);
+    private BigDecimal credit = BigDecimal.valueOf(145);
+    LigneEcritureComptable vLigneEcritureComptable = new LigneEcritureComptable(compteComptable,libelle,debit,credit);
+
+
+    @Test
+    public void test_ConstructorLigneEcritureComptable(){
+
+        assertThat(vLigneEcritureComptable.getCompteComptable()).isEqualTo(compteComptable);
+        assertThat(vLigneEcritureComptable.getLibelle()).isEqualTo(libelle);
+        assertThat(vLigneEcritureComptable.getDebit()).isEqualTo(debit);
+        assertThat(vLigneEcritureComptable.getCredit()).isEqualTo(credit);
+
+    }
+
+
     @Test
     public void test_GetterSetter_LigneEcritureComptable(){
         LigneEcritureComptable vLigneEcritureComptable = new LigneEcritureComptable();

@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SequenceEcritureComptableTest {
 
-    private int annee = 2020;
-    private int derniereValeur = 20;
+    private int annee = 2021;
+    private int derniereValeur = 10;
     private JournalComptable vJournalComptable = new JournalComptable("DZ","Achat");
     private SequenceEcritureComptable vSequenceEcritureComptable = new SequenceEcritureComptable(annee, derniereValeur, vJournalComptable);
 
@@ -26,9 +26,9 @@ public class SequenceEcritureComptableTest {
         pSequenceEcritureComptable.setJournalComptable(vJournalComptable);
         assertThat(pSequenceEcritureComptable.getJournalComptable()).isEqualTo(vJournalComptable);
 
-        pSequenceEcritureComptable.setAnnee(2020);
+        pSequenceEcritureComptable.setAnnee(2022);
         assertThat(pSequenceEcritureComptable.getAnnee()).isNotEqualTo(2016);
-        assertThat(pSequenceEcritureComptable.getAnnee()).isEqualTo(2020);
+        assertThat(pSequenceEcritureComptable.getAnnee()).isEqualTo(2022);
 
         pSequenceEcritureComptable.setDerniereValeur(24);
         assertThat(pSequenceEcritureComptable.getDerniereValeur()).isNotEqualTo(90);
@@ -43,7 +43,7 @@ public class SequenceEcritureComptableTest {
         sequenceEcritureComptable.setAnnee(annee);
         sequenceEcritureComptable.setJournalComptable(vJournalComptable);
 
-        assertThat(sequenceEcritureComptable.toString()).isEqualTo("SequenceEcritureComptable{annee=2020, derniereValeur=20, journal comptable=JournalComptable{code='DZ', libelle='Achat'}}");
+        assertThat(sequenceEcritureComptable.toString()).isEqualTo("SequenceEcritureComptable{annee=2021, derniereValeur=10, journal comptable=JournalComptable{code='DZ', libelle='Achat'}}");
 
     }
 

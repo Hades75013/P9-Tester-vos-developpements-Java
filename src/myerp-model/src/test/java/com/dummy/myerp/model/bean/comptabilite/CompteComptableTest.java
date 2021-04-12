@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+
+
 
 public class CompteComptableTest {
 
@@ -22,7 +23,6 @@ public class CompteComptableTest {
     }
 
     @Test
-
     public void getByNumero_whenCompteComptableExist(){
         assertThat(CompteComptable.getByNumero(compteComptableList, 1234).getLibelle()).isEqualTo("Compte courant 1");
     }
@@ -34,7 +34,7 @@ public class CompteComptableTest {
     }
 
     @Test
-    public void test_GettterSetter_CompteComptable(){
+    public void test_GetterSetter_CompteComptable(){
         CompteComptable compteComptable = new CompteComptable();
         compteComptable.setNumero(123456);
         compteComptable.setLibelle("compte test");
