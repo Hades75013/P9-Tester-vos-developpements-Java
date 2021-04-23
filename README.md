@@ -1,11 +1,3 @@
-# MyERP
-
-## Organisation du répertoire
-
-*   `doc` : documentation
-*   `docker` : répertoire relatifs aux conteneurs _docker_ utiles pour le projet
-    *   `dev` : environnement de développement
-*   `src` : code source de l'application
 
 
 ## Environnement de développement
